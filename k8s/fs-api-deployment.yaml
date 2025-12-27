@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fs-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fs-api
+  template:
+    metadata:
+      labels:
+        app: fs-api
+    spec:
+      containers:
+        - name: fs-api
+          image: fs-api:latest   # lokaal gebuild
+          imagePullPolicy: Never
+          env:
+            - name: DB_HOST
+              value: fs-mongo
+            - name: DB_USER
+              value: appuser
+            - name: DB_PASS
+              value: apppass
+            - name: DB_NAME
+              value: appdb
+          ports:
+            - containerPort: 8000
+              name: http
+          startupProbe: # checks if the server is started correctly
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 3
+            failureThreshold: 5
+          livenessProbe: # checks if the server still works every 5 seconds
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe: # checks if the server is ready to accept traffic
+            httpGet:
+              path: /
+              port: http
+              initialDelaySeconds: 5
+              periodSeconds: 5

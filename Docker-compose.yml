@@ -1,0 +1,33 @@
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+  api:
+    build: ./api
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=appuser
+      - DB_PASS=apppass
+      - DB_NAME=appdb
+    depends_on:
+      - db
+
+  db:
+    image: mongo:7
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: appuser
+      MONGO_INITDB_ROOT_PASSWORD: apppass
+      MONGO_INITDB_DATABASE: appdb
+    volumes:
+      - db_data:/data/db
+      - ./mongo_init.js:/docker-entrypoint-initdb.d/mongo_init.js:ro
+
+volumes:
+  db_data:

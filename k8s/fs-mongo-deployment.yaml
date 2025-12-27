@@ -1,0 +1,47 @@
+# ========================
+# MongoDB Deployment
+# ========================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fs-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fs-mongo
+  template:
+    metadata:
+      labels:
+        app: fs-mongo
+    spec:
+      containers:
+        - name: fs-mongo
+          image: mongo:7
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: appuser
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: apppass
+            - name: MONGO_INITDB_DATABASE
+              value: appdb
+          volumeMounts:
+            - name: mongo-init
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: mongo-init
+          configMap:
+            name: fs-mongo-initjs
+
+---
+# ========================
+# Init script as ConfigMap
+# ========================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fs-mongo-initjs
+data:
+  mongo_init.js: |
+    db = db.getSiblingDB("appdb");
+    db.users.insertOne({ name: "Ferre" });

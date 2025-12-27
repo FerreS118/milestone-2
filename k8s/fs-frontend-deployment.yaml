@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fs-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fs-frontend
+  template:
+    metadata:
+      labels:
+        app: fs-frontend
+    spec:
+      containers:
+        - name: fs-frontend
+          image: fs-frontend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+

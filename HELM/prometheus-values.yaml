@@ -1,0 +1,6 @@
+grafana:
+  adminUser: admin
+  adminPassword: admin
+  service:
+    type: NodePort        # Optioneel: zo kun je de poort via NodePort benaderen
+    nodePort: 30090       # Kies een beschikbare poort
