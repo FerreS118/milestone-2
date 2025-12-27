@@ -28,22 +28,25 @@ spec:
           ports:
             - containerPort: 8000
               name: http
-          startupProbe: # checks if the server is started correctly
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
+          startupProbe:
             httpGet:
               path: /
               port: http
             initialDelaySeconds: 10
             periodSeconds: 3
             failureThreshold: 5
-          livenessProbe: # checks if the server still works every 5 seconds
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
-          readinessProbe: # checks if the server is ready to accept traffic
-            httpGet:
-              path: /
-              port: http
-              initialDelaySeconds: 5
-              periodSeconds: 5
+
