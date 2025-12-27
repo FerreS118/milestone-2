@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: fs-api
-          image: fs-api:latest   # lokaal gebuild
+          image: fs-api:latest
           imagePullPolicy: Never
           env:
             - name: DB_HOST
@@ -49,4 +49,3 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 3
             failureThreshold: 5
-
