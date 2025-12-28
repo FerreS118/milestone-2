@@ -1,16 +1,19 @@
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-nodes:
-  - role: control-plane
-    extraPortMappings:
-      - containerPort: 30080
-        hostPort: 8080
-      - containerPort: 30010
-        hostPort: 8085
-      - containerPort: 30090
-        hostPort: 3000
-      - containerPort: 30081
-        hostPort: 8081
-        
-  - role: worker
-  - role: worker
+kind: Cluster                                # Geeft aan dat dit een Kubernetes cluster configuratie is
+apiVersion: kind.x-k8s.io/v1alpha4           # Versie van KIND configuratie
+nodes:                                        # Definieert nodes in het cluster
+  - role: control-plane                        # De master node die het cluster bestuurt
+    extraPortMappings:                         # Map poorten van de container naar host om externe toegang te maken
+      - containerPort: 30080                   # Poort binnen de container van de frontend
+        hostPort: 8080                         # Poort op de localhost 8080
+      - containerPort: 30010                   # Poort binnen de container van de API
+        hostPort: 8085                         # Poort op de localhost 8085
+      - containerPort: 30090                   # Poort binnen de container voor Prometheus
+        hostPort: 3000                         # Poort op de localhost 3000
+      - containerPort: 30081                   # Poort binnen de container van ArgoCD
+        hostPort: 8081                         # Poort op de localhost 8081  
+  - role: worker                               # Worker node 1 waar pods draaien
+  - role: worker                               # Worker node 2 waar pods draaien
+
+
+
+  

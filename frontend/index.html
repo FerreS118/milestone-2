@@ -8,20 +8,25 @@
   </head>
   <body>
     <h1><span id="user">Loading...</span> has reached milestone 2!</h1>
-    <h2><span id="container">Loading...</span> We are Scaling!</h1>
+    <h2><span id="container">Loading...</span> We are Scaling!</h2>
+
+    <!-- Fetch user data from FastAPI backend -->
     <script>
       fetch("http://localhost:8085/user")
         .then((res) => res.json())
         .then((data) => {
-          document.getElementById("user").innerText = data.name;
+          document.getElementById("user").innerText = data.name;  // Toon username in h1
         });
     </script>
+
+    <!-- Fetch container ID from FastAPI backend -->
     <script>
-    fetch("http://localhost:8085/container")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("container").innerText = data.container_id;
-      });
-</script>
+      fetch("http://localhost:8085/container")
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("container").innerText = data.container_id;  // Toon container ID in h2
+        });
+    </script>
   </body>
 </html>
+
