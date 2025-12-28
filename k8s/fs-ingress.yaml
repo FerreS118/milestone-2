@@ -7,17 +7,11 @@ spec:
   - host: localhost
     http:
       paths:
-      - path: /
+      - path: /user
         pathType: Prefix
         backend:
           service:
             name: fs-api
             port:
               number: 8000
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: fs-frontend
-            port:
-              number: 80
+            
