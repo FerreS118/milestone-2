@@ -1,12 +1,12 @@
-apiVersion: v1
-kind: Service
+apiVersion: v1                  # API versie voor Service resources
+kind: Service                   # Geeft aan dat dit een Service resource is
 metadata:
-  name: fs-api
+  name: fs-api                  # Naam van de Service, handig voor kubectl commands
 spec:
-  type: NodePort
+  type: NodePort                # Service type NodePort maakt de app bereikbaar vanaf de host node
   selector:
-    app: fs-api
+    app: fs-api                 # Koppelt de Service aan pods met label app=fs-api
   ports:
-    - port: 8000
-      targetPort: 8000
-      nodePort: 30010
+    - port: 8000                # Poort waarop de service binnen de cluster bereikbaar is
+      targetPort: 8000          # Poort waarop de container luistert
+      nodePort: 30010           # Externe poort op de node waarmee je buiten de cluster toegang krijgt
