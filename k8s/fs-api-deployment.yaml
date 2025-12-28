@@ -1,53 +1,51 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1                  # API versie voor Deployment resources in Kubernetes
+kind: Deployment                     # Geeft aan dat dit een Deployment resource is
 metadata:
-  name: fs-api
+  name: fs-api                       # Naam van de Deployment, handig voor kubectl commands
 spec:
-  replicas: 2
+  replicas: 2                        # Aantal identieke pods die moeten draaien
   selector:
     matchLabels:
-      app: fs-api
+      app: fs-api                    # Selecteert de pods die deze Deployment beheert via labels
   template:
     metadata:
       labels:
-        app: fs-api
+        app: fs-api                  # Labels die worden toegewezen aan de pods
     spec:
       containers:
-        - name: fs-api
-          image: fs-api:latest
-          imagePullPolicy: Never
-          env:
+        - name: fs-api               # Naam van de container
+          image: fs-api:latest        # Container image die lokaal is gebouwd
+          imagePullPolicy: Never      # Voorkomt dat Kubernetes de image van een registry probeert te trekken
+          env:                        # Environment variables voor de database connectie
             - name: DB_HOST
-              value: fs-mongo
+              value: fs-mongo         # Hostnaam van de MongoDB service in de cluster
             - name: DB_USER
-              value: appuser
+              value: appuser          # DB gebruikersnaam
             - name: DB_PASS
-              value: apppass
+              value: apppass          # DB wachtwoord
             - name: DB_NAME
-              value: appdb
+              value: appdb            # Naam van de database
           ports:
             - containerPort: 8000
-              name: http
-          livenessProbe:
+              name: http              # Containerpoort voor HTTP-verkeer
+          livenessProbe:              # Controleert of de container nog 'alive' is
+            httpGet:
+              path: /                 # Endpoint dat gecontroleerd wordt
+              port: http
+            initialDelaySeconds: 15   # Wacht 15s voordat eerste check
+            periodSeconds: 10         # Controleer elke 10s
+
+          readinessProbe:             # Controleert of de container klaar is om verkeer te ontvangen
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            initialDelaySeconds: 5    # Eerste check na 5s
+            periodSeconds: 5          # Controleer elke 5s
 
-          readinessProbe:
+          startupProbe:               # Controleert of de container succesvol opstart
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 5
-            periodSeconds: 5
-
-          startupProbe:
-            httpGet:
-              path: /
-              port: http
-            initialDelaySeconds: 10
-            periodSeconds: 3
-
-            failureThreshold: 5
-
+            initialDelaySeconds: 10   # Start check na 10s
+            periodSeconds: 3          # Controleer elke 3s
+            failureThreshold: 5       # Mislukkingen voordat container als 'failed' wordt gemarkeerd

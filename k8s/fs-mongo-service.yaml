@@ -1,10 +1,10 @@
-apiVersion: v1
-kind: Service
+apiVersion: v1                  # API versie voor Service resources
+kind: Service                   # Geeft aan dat dit een Service resource is
 metadata:
-  name: fs-mongo
+  name: fs-mongo                # Naam van de Service
 spec:
   selector:
-    app: fs-mongo
+    app: fs-mongo               # Koppelt de Service aan pods met label app=fs-mongo
   ports:
-    - port: 27017
-      targetPort: 27017
+    - port: 27017               # Interne clusterpoort van de Service
+      targetPort: 27017         # Poort waarop de MongoDB container luistert

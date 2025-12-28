@@ -1,21 +1,20 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1                  # API versie voor Deployment resources in Kubernetes
+kind: Deployment                     # Geeft aan dat dit een Deployment resource is
 metadata:
-  name: fs-frontend
+  name: fs-frontend                  # Naam van de Deployment
 spec:
-  replicas: 1
+  replicas: 1                        # Aantal pods dat moet draaien (1 voor frontend)
   selector:
     matchLabels:
-      app: fs-frontend
+      app: fs-frontend               # Labels die deze Deployment beheert
   template:
     metadata:
       labels:
-        app: fs-frontend
+        app: fs-frontend             # Labels die op de pods gezet worden
     spec:
       containers:
-        - name: fs-frontend
-          image: fs-frontend:latest
-          imagePullPolicy: Never
+        - name: fs-frontend          # Naam van de container
+          image: fs-frontend:latest  # Container image, lokaal gebouwd
+          imagePullPolicy: Never     # Trek de image niet van een registry
           ports:
-            - containerPort: 80
-
+            - containerPort: 80      # Poort waarop de frontend container luistert

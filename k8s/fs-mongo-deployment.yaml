@@ -1,47 +1,41 @@
-# ========================
-# MongoDB Deployment
-# ========================
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: apps/v1                  # Deployment API versie
+kind: Deployment                     # Dit is een Deployment resource
 metadata:
-  name: fs-mongo
+  name: fs-mongo                     # Naam van de MongoDB Deployment
 spec:
-  replicas: 1
+  replicas: 1                        # Eén pod voor MongoDB
   selector:
     matchLabels:
-      app: fs-mongo
+      app: fs-mongo                  # Labels om pods te selecteren
   template:
     metadata:
       labels:
-        app: fs-mongo
+        app: fs-mongo                # Labels op de pods
     spec:
       containers:
-        - name: fs-mongo
-          image: mongo:7
-          env:
+        - name: fs-mongo             # Naam van de container
+          image: mongo:7             # MongoDB image
+          env:                        # Database init omgeving variabelen
             - name: MONGO_INITDB_ROOT_USERNAME
-              value: appuser
+              value: appuser         # Root gebruiker
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: apppass
+              value: apppass         # Root wachtwoord
             - name: MONGO_INITDB_DATABASE
-              value: appdb
-          volumeMounts:
+              value: appdb           # Naam van de database
+          volumeMounts:               # Mount init script in container
             - name: mongo-init
               mountPath: /docker-entrypoint-initdb.d
       volumes:
         - name: mongo-init
           configMap:
-            name: fs-mongo-initjs
+            name: fs-mongo-initjs    # Link naar ConfigMap met init script
 
 ---
-# ========================
-# Init script as ConfigMap
-# ========================
 apiVersion: v1
-kind: ConfigMap
+kind: ConfigMap                     # ConfigMap resource voor init script
 metadata:
-  name: fs-mongo-initjs
+  name: fs-mongo-initjs             # Naam van de ConfigMap
 data:
-  mongo_init.js: |
-    db = db.getSiblingDB("appdb");
-    db.users.insertOne({ name: "Ferre" });
+  mongo_init.js: |                  # Script dat bij container start wordt uitgevoerd
+    db = db.getSiblingDB("appdb");  # Selecteer database
+    db.users.insertOne({ name: "Ferre" });  # Voeg een voorbeelduser toe

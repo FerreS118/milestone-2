@@ -1,12 +1,12 @@
-apiVersion: v1
-kind: Service
+apiVersion: v1                  # API versie voor Service resources
+kind: Service                   # Geeft aan dat dit een Service resource is
 metadata:
-  name: fs-frontend
+  name: fs-frontend             # Naam van de Service
 spec:
-  type: NodePort
+  type: NodePort                # NodePort maakt de app toegankelijk vanaf de host node
   selector:
-    app: fs-frontend
+    app: fs-frontend            # Koppelt de Service aan pods met label app=fs-frontend
   ports:
-    - port: 80
-      targetPort: 80
-      nodePort: 30080
+    - port: 80                  # Interne clusterpoort van de Service
+      targetPort: 80            # Poort waarop de container luistert
+      nodePort: 30080           # Externe poort op de node om buiten de cluster toegang te krijgen
