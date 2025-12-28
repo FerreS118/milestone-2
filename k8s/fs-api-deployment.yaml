@@ -3,7 +3,7 @@ kind: Deployment                     # Geeft aan dat dit een Deployment resource
 metadata:
   name: fs-api                       # Naam van de Deployment, handig voor kubectl commands
 spec:
-  replicas: 2                        # Aantal identieke pods die moeten draaien
+  replicas: 3                        # Aantal identieke pods die moeten draaien
   selector:
     matchLabels:
       app: fs-api                    # Selecteert de pods die deze Deployment beheert via labels

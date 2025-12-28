@@ -1,17 +1,16 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: networking.k8s.io/v1   # Geeft aan dat dit een Ingress resource is volgens v1 API
+kind: Ingress                      # Specificeert dat dit een Ingress object is dat HTTP-verkeer kan routeren
 metadata:
-  name: fs-ingress
+  name: fs-ingress                 # Naam van deze Ingress, om hem later op te vragen of aan te passen
 spec:
   rules:
-  - host: localhost
+  - host: localhost                # Hostnaam waarvoor deze Ingress geldt (hier lokaal, omdat we een lokaal cluster gebruiken)
     http:
       paths:
-      - path: /user
-        pathType: Prefix
+      - path: /user                # Requests die beginnen met /user worden naar de API gestuurd
+        pathType: Prefix           # Prefix matching: alles dat begint met /user matcht deze regel
         backend:
           service:
-            name: fs-api
+            name: fs-api           # Naam van de service waar requests heen gaan (de API)
             port:
-              number: 8000
-            
+              number: 8000         # Poort waarop de API service luistert
