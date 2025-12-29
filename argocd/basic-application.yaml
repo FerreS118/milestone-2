@@ -1,20 +1,25 @@
-apiVersion: argoproj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1   # Argo CD Application resource
 kind: Application
+
 metadata:
-  name: milestone2
-  namespace: fs-argocd
+  name: milestone2                 # Naam van de applicatie
+  namespace: fs-argocd              # Namespace waarin Argo CD draait
+
 spec:
-  project: default
+  project: default                 # Standaard Argo CD project
+
   source:
-    repoURL: https://github.com/FerreS118/milestone-2.git
-    targetRevision: HEAD
-    path: k8s
+    repoURL: https://github.com/FerreS118/milestone-2.git  # Git repository
+    targetRevision: HEAD            # Laatste versie uit Git
+    path: k8s                       # Map met Kubernetes manifests
+
   destination:
-    server: https://kubernetes.default.svc
-    namespace: default
+    server: https://kubernetes.default.svc  # Doelcluster
+    namespace: default              # Doelnamespace
+
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
+      prune: true                  # Verwijder resources die niet meer in Git staan
+      selfHeal: true               # Herstel handmatige wijzigingen automatisch
     syncOptions:
-    - CreateNamespace=true
+    - CreateNamespace=true         # Namespace automatisch aanmaken

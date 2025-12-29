@@ -1,4 +1,6 @@
 server:
   service:
-    type: NodePort
-    nodePortHttp: 30081
+    type: NodePort   # bereikbaar maken via een NodePort-service
+    nodePortHttp: 30081 # poort 30081 als nodeport instellen
+
+    

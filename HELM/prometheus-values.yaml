@@ -1,6 +1,6 @@
 grafana:
-  adminUser: admin
-  adminPassword: admin
+  adminUser: admin           # gebruikersnaam instellen  als admin
+  adminPassword: admin       # Wachtwoord instellen als admin
   service:
-    type: NodePort        # Optioneel: zo kun je de poort via NodePort benaderen
-    nodePort: 30090       # Kies een beschikbare poort
+    type: NodePort           # Grafana bereikbaar maken via een NodePort-service
+    nodePort: 30090          # poort 30090 als nodeport instellen
